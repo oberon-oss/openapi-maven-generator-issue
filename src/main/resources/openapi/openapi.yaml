@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: Example project for possible problem with openapi maven generator plugin
+  contact:
+    name: Reporter
+    email: reporter@support.example.com
+    url: https://support.example.com/
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+    description: Address for local use.
+paths:
+  /objects/:
+    get:
+      tags:
+        - objects
+      responses:
+        200:
+          $ref: '#/components/responses/sampleObjectResponseList'
+  /object:
+    get:
+      tags:
+        - objects
+      operationId: getObject
+      responses:
+        200:
+          $ref: '#/components/responses/sampleObjectResponse'
+    post:
+      tags:
+        - objects
+      operationId: postObject
+      requestBody:
+        $ref: '#/components/requestBodies/sampleObjectRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/sampleObjectResponse'
+
+components:
+  requestBodies:
+    sampleObjectRequest:
+      description: sample object request
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/simpleObject'
+              - $ref: '#/components/schemas/complexObject'
+            discriminator:
+              propertyName: objectType
+  responses:
+    sampleObjectResponse:
+      description: sample object response
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/simpleObject'
+              - $ref: '#/components/schemas/complexObject'
+            discriminator:
+              propertyName: objectType
+    sampleObjectResponseList:
+      description: List of Objects can contain either of these objects
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: '#/components/schemas/simpleObject'
+              - $ref: '#/components/schemas/complexObject'
+            discriminator:
+              propertyName: objectType
+  schemas:
+    'simpleObject':
+      type: object
+      required:
+        - objectType
+      properties:
+        objectType:
+          type: string
+        id:
+          type: string
+          format: uuid
+        name1:
+          type: string
+    complexObject:
+      type: object
+      required:
+        - objectType
+      properties:
+        objectType:
+          type: string
+        id:
+          type: string
+          format: uuid
+        name2:
+          type: string
