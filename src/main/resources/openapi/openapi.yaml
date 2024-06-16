@@ -12,6 +12,7 @@ servers:
 paths:
   /objects/:
     get:
+      operationId: getAllObjects
       tags:
         - objects
       responses:
@@ -65,11 +66,11 @@ components:
           schema:
             type: array
             items:
-              anyOf:
-              - $ref: '#/components/schemas/simpleObject'
-              - $ref: '#/components/schemas/complexObject'
-            discriminator:
-              propertyName: objectType
+              oneOf:
+                - $ref: '#/components/schemas/simpleObject'
+                - $ref: '#/components/schemas/complexObject'
+              discriminator:
+                propertyName: objectType
   schemas:
     'simpleObject':
       type: object

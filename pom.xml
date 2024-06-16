@@ -97,6 +97,10 @@
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>
+                                <useOneOfInterfaces>true</useOneOfInterfaces>
+                                <interfaceOnly>true</interfaceOnly>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <useTags>true</useTags>
                             </configOptions>
                         </configuration>
                     </execution>

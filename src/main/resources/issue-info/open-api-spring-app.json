@@ -1,0 +1,160 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "objects",
+      "description": "the objects API"
+    }
+  ],
+  "paths": {
+    "/object": {
+      "get": {
+        "tags": [
+          "objects"
+        ],
+        "operationId": "getObject",
+        "responses": {
+          "200": {
+            "description": "sample object response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetObject200Response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "objects"
+        ],
+        "operationId": "postObject",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "sample object request",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ComplexObject"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SimpleObject"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "sample object response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetObject200Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objects/": {
+      "get": {
+        "tags": [
+          "objects"
+        ],
+        "operationId": "getAllObjects",
+        "responses": {
+          "200": {
+            "description": "List of Objects can contain either of these objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetAllObjects200ResponseInner"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ComplexObject": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GetObject200Response"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name2": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "GetObject200Response": {
+        "required": [
+          "objectType"
+        ],
+        "type": "object",
+        "properties": {
+          "objectType": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "objectType"
+        }
+      },
+      "SimpleObject": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GetObject200Response"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "name1": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "GetAllObjects200ResponseInner": {
+        "type": "object"
+      }
+    }
+  }
+}
